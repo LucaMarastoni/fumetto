@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Nome Fumetto – graphic novel digitale da 277 pagine. Leggilo online o scarica il PDF.">
+  <meta property="og:title" content="Nome Fumetto – Graphic Novel Digitale">
+  <meta property="og:description" content="Leggi Nome Fumetto in formato PDF: 277 pagine, reader ottimizzato per desktop e mobile.">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#0c0f18">
+  <title>Nome Fumetto – Vetrina</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="background-texture" aria-hidden="true"></div>
+
+  <!-- Hero / Copertina -->
+  <header class="hero">
+    <div class="hero__content">
+      <p class="hero__eyebrow">Graphic novel digitale</p>
+      <h1 class="hero__title">Nome Fumetto</h1>
+      <p class="hero__tagline">
+        Un racconto illustrato contemporaneo: ritmo, luce e silenzi in 277 pagine da esplorare in digitale.
+      </p>
+      <div class="hero__meta">
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Formato</span>
+          <span class="hero__meta-value">PDF</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Pagine</span>
+          <span class="hero__meta-value">277</span>
+        </div>
+        <div class="hero__meta-item">
+          <span class="hero__meta-label">Lettura</span>
+          <span class="hero__meta-value">Mobile first</span>
+        </div>
+      </div>
+      <p class="hero__note">Reader ottimizzato con pagina singola, zoom e modalità verticale.</p>
+      <a class="hero__link" href="#lettura">Vai al reader</a>
+    </div>
+    <div class="hero__cover">
+      <img
+        class="hero__cover-image"
+        src="https://images.unsplash.com/photo-1494526585095-c41746248156?auto=format&fit=crop&w=1400&q=80"
+        alt="Scena urbana notturna per Nome Fumetto"
+        width="1400"
+        height="1000"
+      >
+      <div class="cover__chip">PDF • 277 pagine</div>
+      <div class="cover__blob cover__blob--one"></div>
+      <div class="cover__blob cover__blob--two"></div>
+      <div class="cover__card">
+        <p class="cover__label">Anteprima</p>
+        <p class="cover__title">Nome Fumetto</p>
+        <p class="cover__subtitle">Capitolo Zero</p>
+        <a class="button button--primary" href="#lettura">Apri il reader</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Sezione Lettura -->
+    <section id="lettura" class="section reading">
+      <div class="section__header">
+        <p class="section__eyebrow">Lettura</p>
+        <div>
+          <h2 class="section__title">Sfoglia Nome Fumetto (PDF)</h2>
+          <p class="section__subtitle">Scegli se leggere scorrendo il PDF completo o pagina per pagina.</p>
+        </div>
+      </div>
+
+      <div class="reader-toolbar">
+        <div class="reader-toolbar__group">
+          <span class="reader-toolbar__label">Visualizzazione</span>
+          <div class="view-toggle" role="group" aria-label="Seleziona modalità di lettura">
+            <button
+              class="button button--ghost button--small is-active"
+              type="button"
+              data-view="scroll"
+              aria-pressed="true"
+            >
+              Scroll verticale
+            </button>
+            <button
+              class="button button--ghost button--small"
+              type="button"
+              data-view="pager"
+              aria-pressed="false"
+            >
+              Pagina per pagina
+            </button>
+          </div>
+        </div>
+        <div class="reader-toolbar__group reader-toolbar__actions">
+          <a class="button button--ghost button--small" href="fumetto.pdf" download>Download PDF</a>
+          <a class="button button--primary button--small" href="fumetto.pdf" target="_blank" rel="noreferrer">
+            Apri a schermo intero
+          </a>
+        </div>
+      </div>
+
+      <div class="reader reader--scroll" data-mode="scroll">
+        <p class="reader__hint">Scrolla per leggere tutte le 277 pagine del PDF.</p>
+        <iframe
+          id="pdf-scroll"
+          title="Lettura completa PDF"
+          class="pdf-frame"
+          src="fumetto.pdf#view=FitH"
+          loading="lazy"
+        ></iframe>
+      </div>
+
+      <div class="reader reader--pager is-hidden" data-mode="pager">
+        <div class="pager">
+          <div class="pager__controls">
+            <div class="pager__group">
+              <button class="icon-button" id="prev-page" type="button" aria-label="Pagina precedente">←</button>
+              <div class="pager__status">
+                <span>Pagina</span>
+                <input id="page-input" type="number" min="1" value="1" inputmode="numeric" aria-label="Numero pagina">
+                <span class="pager__divider">/</span>
+                <span id="total-pages">—</span>
+              </div>
+              <button class="icon-button" id="next-page" type="button" aria-label="Pagina successiva">→</button>
+            </div>
+            <div class="pager__group">
+              <button class="icon-button" id="zoom-out" type="button" aria-label="Zoom out">−</button>
+              <span class="pager__zoom-level" id="zoom-level">100%</span>
+              <button class="icon-button" id="zoom-in" type="button" aria-label="Zoom in">+</button>
+              <button class="text-button" id="zoom-fit" type="button">Adatta</button>
+            </div>
+          </div>
+          <div class="pager__canvas-wrap">
+            <canvas id="pdf-canvas"></canvas>
+            <div class="pager__loading" id="pager-loading" aria-live="polite">Caricamento pagina…</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Sezione Info -->
+    <section id="info" class="section info">
+      <div class="info__content">
+        <p class="section__eyebrow">Info</p>
+        <h2 class="section__title">Sul progetto</h2>
+        <div class="info__layout">
+          <div class="info__intro">
+            <p class="info__text">
+              Nome Fumetto è un viaggio illustrato che mescola noir urbano e poesia visiva. Ogni tavola è
+              pensata per essere letta con calma, tra colori che respirano e linee che raccontano.
+            </p>
+            <p class="info__text info__text--muted">
+              Il reader digitale permette una lettura fluida su telefono e desktop, con pagina singola
+              ad alta definizione e zoom controllato.
+            </p>
+          </div>
+          <div class="info__facts" aria-label="Dettagli del progetto">
+            <div class="info__fact">
+              <span class="info__fact-label">Formato</span>
+              <span class="info__fact-value">PDF · 277 pagine</span>
+            </div>
+            <div class="info__fact">
+              <span class="info__fact-label">Genere</span>
+              <span class="info__fact-value">Noir illustrato</span>
+            </div>
+            <div class="info__fact">
+              <span class="info__fact-label">Lingua</span>
+              <span class="info__fact-value">Italiano</span>
+            </div>
+            <div class="info__fact">
+              <span class="info__fact-label">Supporto</span>
+              <span class="info__fact-value">Desktop · Mobile</span>
+            </div>
+          </div>
+        </div>
+        <div class="info__gallery" aria-label="Immagini di atmosfera">
+          <figure class="info__shot">
+            <img
+              src="https://images.unsplash.com/photo-1495567720989-cebdbdd97913?auto=format&fit=crop&w=900&q=80"
+              alt="Luci al neon per l'atmosfera di Nome Fumetto"
+              loading="lazy"
+              width="900"
+              height="675"
+            >
+            <figcaption>Atmosfera neon e dettagli urbani.</figcaption>
+          </figure>
+          <figure class="info__shot">
+            <img
+              src="https://images.unsplash.com/photo-1489515217757-5fd1be406fef?auto=format&fit=crop&w=900&q=80"
+              alt="Strade bagnate e riflessi notturni"
+              loading="lazy"
+              width="900"
+              height="675"
+            >
+            <figcaption>Riflessi notturni, ritmo lento.</figcaption>
+          </figure>
+          <figure class="info__shot">
+            <img
+              src="https://images.unsplash.com/photo-1470770841072-f978cf4d019e?auto=format&fit=crop&w=900&q=80"
+              alt="Nebbia e silhouette per la narrazione"
+              loading="lazy"
+              width="900"
+              height="675"
+            >
+            <figcaption>Nebbia, silenzi, tensione.</figcaption>
+          </figure>
+        </div>
+        <div class="info__cards">
+          <div class="info__card">
+            <h3>Sinossi</h3>
+            <p>
+              Un testimone smarrito, una città sospesa nel crepuscolo, un mistero che affiora tra le
+              luci al neon e la memoria frammentata.
+            </p>
+          </div>
+          <div class="info__card">
+            <h3>Autore</h3>
+            <p>
+              Nome Autore – sceneggiatore e illustratore. Spazio per bio, ispirazioni e retroscena sulla
+              nascita di Nome Fumetto.
+            </p>
+          </div>
+          <div class="info__card">
+            <h3>Note di lettura</h3>
+            <p>
+              Suggerita la modalità pagina singola con zoom. Il PDF è disponibile anche per la lettura
+              offline o su tablet.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="footer__content">
+      <div>
+        <p class="footer__title">Nome Fumetto</p>
+        <p class="footer__text">© 2024 Nome Autore – Tutti i diritti riservati.</p>
+      </div>
+      <div class="footer__links">
+        <a href="#" aria-label="Link social 1">Social 1</a>
+        <a href="#" aria-label="Link social 2">Social 2</a>
+        <a href="mailto:info@nomefumetto.com">info@nomefumetto.com</a>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
