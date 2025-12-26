@@ -12,14 +12,8 @@ let scrollQueue = [];
 let scrollQueueSet = new Set();
 let isScrollRendering = false;
 let hasScrollFirstPaint = false;
-let scrollRenderedSet = new Set();
-let scrollRenderedCount = 0;
-
 const scrollPages = document.getElementById("scroll-pages");
 const scrollLoading = document.getElementById("scroll-loading");
-const scrollProgressText = document.getElementById("scroll-progress-text");
-const scrollProgressFill = document.getElementById("scroll-progress-fill");
-const scrollProgress = document.getElementById("scroll-progress");
 const scrollToTopButton = document.getElementById("scroll-to-top");
 const viewButtons = document.querySelectorAll("[data-view]");
 const readers = document.querySelectorAll(".reader");
@@ -58,19 +52,6 @@ function setScrollLoading(isLoading, message = "Caricamento PDF…") {
     label.textContent = message;
   }
   scrollPages.setAttribute("aria-busy", isLoading ? "true" : "false");
-}
-
-function updateScrollProgress() {
-  if (!scrollProgressText || !scrollProgressFill) {
-    return;
-  }
-  const total = pdfDoc ? pdfDoc.numPages : 0;
-  scrollProgressText.textContent = `${scrollRenderedCount}/${total}`;
-  const percent = total > 0 ? Math.min((scrollRenderedCount / total) * 100, 100) : 0;
-  scrollProgressFill.style.width = `${percent}%`;
-  if (scrollProgress) {
-    scrollProgress.classList.toggle("is-complete", total > 0 && scrollRenderedCount >= total);
-  }
 }
 
 function updateToTopVisibility() {
@@ -148,7 +129,7 @@ function renderScrollPage(pageNumber) {
     if (!context) {
       return Promise.resolve();
     }
-    const outputScale = 1;
+    const outputScale = Math.min(window.devicePixelRatio || 1, 2);
 
     canvas.width = Math.floor(viewport.width * outputScale);
     canvas.height = Math.floor(viewport.height * outputScale);
@@ -161,12 +142,6 @@ function renderScrollPage(pageNumber) {
   }).then(() => {
     wrapper.dataset.rendered = "true";
     wrapper.classList.remove("is-loading");
-
-    if (!scrollRenderedSet.has(pageNumber)) {
-      scrollRenderedSet.add(pageNumber);
-      scrollRenderedCount += 1;
-      updateScrollProgress();
-    }
 
     if (!hasScrollFirstPaint) {
       hasScrollFirstPaint = true;
@@ -245,9 +220,6 @@ function initScrollPages() {
   scrollQueueSet.clear();
   isScrollRendering = false;
   hasScrollFirstPaint = false;
-  scrollRenderedSet = new Set();
-  scrollRenderedCount = 0;
-  updateScrollProgress();
 
   const fragment = document.createDocumentFragment();
 
@@ -429,7 +401,6 @@ function initPdf() {
   pdfjsLib.getDocument(pdfPath).promise.then((doc) => {
     pdfDoc = doc;
     updateControls();
-    updateScrollProgress();
 
     if (currentMode === "scroll") {
       ensureScrollInitialized();
