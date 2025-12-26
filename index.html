@@ -102,13 +102,23 @@
 
       <div class="reader reader--scroll" data-mode="scroll">
         <p class="reader__hint">Scrolla per leggere tutte le 277 pagine del PDF.</p>
-        <iframe
-          id="pdf-scroll"
-          title="Lettura completa PDF"
-          class="pdf-frame"
-          src="fumetto.pdf#view=FitH"
-          loading="lazy"
-        ></iframe>
+        <div class="scroll-reader">
+          <div class="scroll-progress" id="scroll-progress" aria-live="polite">
+            <div class="scroll-progress__label">
+              <span>Caricamento tavole</span>
+              <span id="scroll-progress-text">0/0</span>
+            </div>
+            <div class="scroll-progress__bar">
+              <div class="scroll-progress__fill" id="scroll-progress-fill"></div>
+            </div>
+            <p class="scroll-progress__note">Caricamento progressivo mentre scorri.</p>
+          </div>
+          <div class="scroll-loading is-visible" id="scroll-loading" aria-live="polite">
+            <div class="spinner" aria-hidden="true"></div>
+            <span>Caricamento PDF…</span>
+          </div>
+          <div class="scroll-pages" id="scroll-pages" aria-busy="true" aria-label="Tavole in sequenza verticale"></div>
+        </div>
       </div>
 
       <div class="reader reader--pager is-hidden" data-mode="pager">
@@ -133,7 +143,10 @@
           </div>
           <div class="pager__canvas-wrap">
             <canvas id="pdf-canvas"></canvas>
-            <div class="pager__loading" id="pager-loading" aria-live="polite">Caricamento pagina…</div>
+            <div class="pager__loading" id="pager-loading" aria-live="polite">
+              <div class="spinner" aria-hidden="true"></div>
+              <span>Caricamento pagina…</span>
+            </div>
           </div>
         </div>
       </div>
@@ -232,6 +245,11 @@
       </div>
     </section>
   </main>
+
+  <button class="to-top" id="scroll-to-top" type="button" aria-label="Torna su">
+    <span aria-hidden="true">↑</span>
+    Torna su
+  </button>
 
   <footer class="footer">
     <div class="footer__content">
