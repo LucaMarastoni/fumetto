@@ -60,18 +60,18 @@
           <span class="reader-toolbar__label">Visualizzazione</span>
           <div class="view-toggle" role="group" aria-label="Seleziona modalità di lettura">
             <button
-              class="button button--ghost button--small is-active"
+              class="button button--ghost button--small"
               type="button"
               data-view="scroll"
-              aria-pressed="true"
+              aria-pressed="false"
             >
               Scroll verticale
             </button>
             <button
-              class="button button--ghost button--small"
+              class="button button--ghost button--small is-active"
               type="button"
               data-view="pager"
-              aria-pressed="false"
+              aria-pressed="true"
             >
               Pagina per pagina
             </button>
@@ -219,7 +219,34 @@
         </div>
       </div>
     </section>
+
+    <!-- Sezione Commenti -->
+    <section id="commento" class="section comment">
+      <div class="comment__content">
+        <div>
+          <p class="section__eyebrow">Contatto</p>
+          <h2 class="section__title">Lasciami un commento</h2>
+          <p class="section__subtitle">
+            Feedback, domande o impressioni? Scrivimi e rispondero' il prima possibile.
+          </p>
+        </div>
+        <a class="button button--primary" href="mailto:info@nomefumetto.com?subject=Commento%20Nome%20Fumetto">
+          Invia un commento via email
+        </a>
+      </div>
+    </section>
+
   </main>
+
+  <div class="modal is-hidden" id="policy-modal" role="dialog" aria-modal="true" aria-labelledby="policy-title">
+    <div class="modal__overlay" data-close-modal></div>
+    <div class="modal__card">
+      <button class="modal__close" type="button" data-close-modal aria-label="Chiudi">x</button>
+      <p class="section__eyebrow" id="policy-type">Policy</p>
+      <h2 class="section__title" id="policy-title">Policy</h2>
+      <div class="modal__content" id="policy-content"></div>
+    </div>
+  </div>
 
   <button class="to-top" id="scroll-to-top" type="button" aria-label="Torna su">
     <span aria-hidden="true">↑</span>
@@ -236,6 +263,8 @@
         <a href="#" aria-label="Link social 1">Social 1</a>
         <a href="#" aria-label="Link social 2">Social 2</a>
         <a href="mailto:info@nomefumetto.com">info@nomefumetto.com</a>
+        <button class="footer__link-button" type="button" data-policy="privacy">Privacy Policy</button>
+        <button class="footer__link-button" type="button" data-policy="cookie">Cookie Policy</button>
       </div>
     </div>
   </footer>

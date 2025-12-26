@@ -679,6 +679,91 @@ a {
   gap: 1rem;
 }
 
+.comment__content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: rgba(255, 255, 255, 0.03);
+  box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
+}
+
+.comment__content .section__subtitle {
+  max-width: 52ch;
+}
+
+.modal {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+}
+
+.modal.is-hidden {
+  display: none;
+}
+
+.modal__overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(5, 7, 12, 0.7);
+  backdrop-filter: blur(4px);
+}
+
+.modal__card {
+  position: relative;
+  z-index: 1;
+  width: min(92vw, 760px);
+  max-height: 85vh;
+  overflow-y: auto;
+  padding: 1.6rem;
+  border-radius: var(--radius);
+  border: 1px solid var(--stroke);
+  background: rgba(10, 14, 22, 0.95);
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.6);
+}
+
+.modal__close {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--text);
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: background-color var(--transition), transform var(--transition);
+}
+
+.modal__close:hover {
+  background: rgba(255, 255, 255, 0.18);
+  transform: scale(1.02);
+}
+
+.modal__content {
+  margin-top: 0.6rem;
+  color: #dce1ef;
+  display: grid;
+  gap: 0.8rem;
+}
+
+.modal__content p {
+  margin: 0;
+  max-width: 70ch;
+}
+
+body.modal-open {
+  overflow: hidden;
+}
+
 .info__gallery {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -761,7 +846,23 @@ a {
   transition: color var(--transition), border-color var(--transition);
 }
 
+.footer__link-button {
+  background: none;
+  border: none;
+  color: var(--muted);
+  border-bottom: 1px solid transparent;
+  padding: 0 0 2px;
+  font: inherit;
+  cursor: pointer;
+  transition: color var(--transition), border-color var(--transition);
+}
+
 .footer__links a:hover {
+  color: var(--text);
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+.footer__link-button:hover {
   color: var(--text);
   border-color: rgba(255, 255, 255, 0.4);
 }
@@ -876,6 +977,11 @@ a {
 
   .info__layout {
     grid-template-columns: 1fr;
+  }
+
+  .comment__content {
+    flex-direction: column;
+    align-items: flex-start;
   }
 }
 

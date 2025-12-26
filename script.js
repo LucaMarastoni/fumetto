@@ -5,7 +5,7 @@ let currentScale = 1;
 let fitToWidth = true;
 let isRendering = false;
 let pendingPage = null;
-let currentMode = "scroll";
+let currentMode = "pager";
 let scrollInitialized = false;
 let scrollObserver = null;
 let scrollQueue = [];
@@ -31,6 +31,34 @@ const zoomFitButton = document.getElementById("zoom-fit");
 const pageInput = document.getElementById("page-input");
 const totalPagesLabel = document.getElementById("total-pages");
 const zoomLevelLabel = document.getElementById("zoom-level");
+
+const policyModal = document.getElementById("policy-modal");
+const policyTitle = document.getElementById("policy-title");
+const policyType = document.getElementById("policy-type");
+const policyContent = document.getElementById("policy-content");
+const policyTriggers = document.querySelectorAll("[data-policy]");
+const policyCloseButtons = document.querySelectorAll("[data-close-modal]");
+let lastFocusedElement = null;
+
+const policyCopy = {
+  privacy: {
+    eyebrow: "Privacy",
+    title: "Privacy Policy",
+    body: [
+      "Questo sito non raccoglie dati personali tramite form o account.",
+      "I dati vengono inviati solo se scegli di contattarci via email.",
+      "Le informazioni ricevute via email vengono usate esclusivamente per rispondere alla tua richiesta e non vengono condivise con terzi.",
+    ],
+  },
+  cookie: {
+    eyebrow: "Cookie",
+    title: "Cookie Policy",
+    body: [
+      "Questo sito non utilizza cookie di profilazione.",
+      "Possono essere presenti cookie tecnici legati al funzionamento del browser o di servizi esterni (es. visualizzazione PDF).",
+    ],
+  },
+};
 
 function setLoading(isLoading, message) {
   loadingOverlay.classList.toggle("is-visible", isLoading);
@@ -60,6 +88,46 @@ function updateToTopVisibility() {
   }
   const shouldShow = currentMode === "scroll" && window.scrollY > 600;
   scrollToTopButton.classList.toggle("is-visible", shouldShow);
+}
+
+function setPolicyContent(copy) {
+  if (!policyContent) {
+    return;
+  }
+  policyContent.innerHTML = "";
+  copy.body.forEach((text) => {
+    const paragraph = document.createElement("p");
+    paragraph.textContent = text;
+    policyContent.appendChild(paragraph);
+  });
+}
+
+function openPolicyModal(type) {
+  if (!policyModal || !policyTitle || !policyType) {
+    return;
+  }
+  const copy = policyCopy[type];
+  if (!copy) {
+    return;
+  }
+  policyType.textContent = copy.eyebrow;
+  policyTitle.textContent = copy.title;
+  setPolicyContent(copy);
+  policyModal.classList.remove("is-hidden");
+  document.body.classList.add("modal-open");
+  lastFocusedElement = document.activeElement;
+  policyModal.querySelector(".modal__close")?.focus();
+}
+
+function closePolicyModal() {
+  if (!policyModal) {
+    return;
+  }
+  policyModal.classList.add("is-hidden");
+  document.body.classList.remove("modal-open");
+  if (lastFocusedElement && typeof lastFocusedElement.focus === "function") {
+    lastFocusedElement.focus();
+  }
 }
 
 function updateControls() {
@@ -465,6 +533,20 @@ function init() {
         window.clearTimeout(resizeTimer);
       }
       resizeTimer = window.setTimeout(refreshVisibleScrollPages, 150);
+    }
+  });
+
+  policyTriggers.forEach((trigger) => {
+    trigger.addEventListener("click", () => openPolicyModal(trigger.dataset.policy));
+  });
+
+  policyCloseButtons.forEach((button) => {
+    button.addEventListener("click", closePolicyModal);
+  });
+
+  window.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && policyModal && !policyModal.classList.contains("is-hidden")) {
+      closePolicyModal();
     }
   });
 }
