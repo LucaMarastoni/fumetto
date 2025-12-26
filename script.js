@@ -100,7 +100,7 @@ function getScrollAvailableWidth() {
   }
   const width = scrollPages.clientWidth;
   if (width > 0) {
-    return width - 32;
+    return Math.max(width - 12, 200);
   }
   return Math.min(window.innerWidth - 48, 960);
 }
@@ -231,12 +231,7 @@ function initScrollPages() {
     const canvas = document.createElement("canvas");
     canvas.className = "scroll-canvas";
 
-    const label = document.createElement("span");
-    label.className = "scroll-page__label";
-    label.textContent = `Pagina ${i}`;
-
     wrapper.appendChild(canvas);
-    wrapper.appendChild(label);
     fragment.appendChild(wrapper);
   }
 

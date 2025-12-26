@@ -273,6 +273,11 @@ a {
   margin: 0 auto;
 }
 
+.section.reading {
+  max-width: 1400px;
+  width: 100%;
+}
+
 .section__header {
   display: grid;
   grid-template-columns: auto 1fr;
@@ -362,6 +367,13 @@ a {
   box-shadow: 0 16px 42px rgba(0, 0, 0, 0.35);
 }
 
+.reader--scroll {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  padding: 0;
+}
+
 .reader__hint {
   color: var(--muted);
   margin: 0 0 0.6rem;
@@ -379,8 +391,8 @@ a {
   gap: 0.6rem;
   padding: 1rem;
   border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  background: transparent;
   color: var(--muted);
   font-weight: 600;
 }
@@ -391,37 +403,25 @@ a {
 
 .scroll-pages {
   display: grid;
-  gap: 1rem;
+  gap: 1.4rem;
 }
 
 .scroll-page {
   position: relative;
-  padding: 0.8rem;
-  border-radius: var(--radius);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.35);
+  padding: 0;
+  border-radius: 0;
+  border: none;
+  background: transparent;
+  box-shadow: none;
   display: flex;
   justify-content: center;
-  min-height: 420px;
-  aspect-ratio: 2 / 3;
+  min-height: 320px;
 }
 
 .scroll-page.is-loading {
-  background: linear-gradient(120deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.01));
+  background: transparent;
 }
 
-.scroll-page__label {
-  position: absolute;
-  top: 12px;
-  left: 12px;
-  padding: 0.3rem 0.6rem;
-  border-radius: 999px;
-  background: rgba(10, 14, 22, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  font-size: 0.75rem;
-  color: var(--muted);
-}
 
 .scroll-canvas {
   display: block;
@@ -930,7 +930,8 @@ a {
 
   .scroll-page {
     padding: 0.6rem;
-    min-height: 320px;
+    padding: 0;
+    min-height: 260px;
   }
 
   .scroll-page__label {
